@@ -42,7 +42,7 @@ import {
 	// RETURNS
 	//   the filtered image file [!!TIP res.sendFile(filteredpath); might be useful]
 
-	app.get("/filteredimage", oneOf([
+	app.get("/filteredimage",
 		check('image_url').exists().withMessage('url is required'),
 		check('image_url')
 		.custom((image_url) => {
@@ -52,10 +52,10 @@ import {
 			}
 			return Promise.resolve();
 		})
-	]), (req, res) => {
+	, (req, res) => {
 		try {
-			const validImageUrl = req.query.image_url;
 			validationResult(req).throw();
+			const validImageUrl = req.query.image_url;
 			filterImageFromURL(validImageUrl).then(pathToImage => {
 				console.log(`[INFO] file returned is: ${pathToImage}`);
 				res.sendFile(pathToImage, (err) => {
